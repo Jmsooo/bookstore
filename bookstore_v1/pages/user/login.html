@@ -84,6 +84,12 @@
             errorMsg: "请输入用户名和密码"
         },
         methods: {
+            /**
+             * 验证是否为空
+             * @param content 内容
+             * @param errorMsg 错误提示信息
+             * @returns {boolean}
+             */
             checkNull(content, errorMsg) {
                 var reg = /^\s*$/;
                 if (reg.test(content)) {
@@ -96,12 +102,23 @@
                     return false;
                 }
             },
+            /**
+             * 验证账户是否为空
+             * @returns {*|boolean}
+             */
             checkUserName() {
                 return this.checkNull(this.userName, "账户不能为空！")
             },
+            /**
+             * 验证密码是否为空
+             * @returns {*|boolean}
+             */
             checkPassWord() {
                 return this.checkNull(this.passWord, "密码不能为空！")
             },
+            /**
+             * 登陆校验
+             */
             checkLogin() {
                 if (this.checkUserName() && this.checkPassWord()) {
                     //账户或密码为空, 则禁止登陆
