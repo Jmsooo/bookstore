@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>尚硅谷会员登录页面</title>
+    <link type="text/css" rel="stylesheet" href="../../static/css/style.css"/>
+</head>
+<body>
+<div id="app">
+    <div id="login_header">
+        <a href="../../index.html">
+            <img class="logo_img" alt="" src="../../static/img/logo.gif"/>
+        </a>
+    </div>
+    <div class="login_banner">
+        <div id="l_content">
+            <span class="login_word">欢迎登录</span>
+        </div>
+
+        <div id="content">
+            <div class="login_form">
+                <div class="login_box">
+                    <div class="tit">
+                        <h1>尚硅谷会员</h1>
+                    </div>
+                    <div class="msg_cont">
+                        <b></b>
+                        <span class="errorMsg" v-text="errorMsg">请输入用户名和密码</span>
+                    </div>
+                    <div class="form">
+                        <form action="login_success.html" @submit="checkLogin()">
+                            <label>用户名称：</label>
+                            <input
+                                    class="itxt"
+                                    type="text"
+                                    placeholder="请输入用户名"
+                                    autocomplete="off"
+                                    tabindex="1"
+                                    name="username"
+                                    id="username"
+                                    v-model="userName"
+                                    @change="checkUserName()"
+                            />
+                            <br/>
+                            <br/>
+                            <label>用户密码：</label>
+                            <input
+                                    class="itxt"
+                                    type="password"
+                                    placeholder="请输入密码"
+                                    autocomplete="off"
+                                    tabindex="1"
+                                    name="password"
+                                    id="password"
+                                    v-model="passWord"
+                                    @change="checkPassWord()"
+                            />
+                            <br/>
+                            <br/>
+                            <input type="submit" value="登录" id="sub_btn"/>
+                        </form>
+                        <div class="tit">
+                            <a href="regist.html">立即注册</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="bottom">
+      <span>
+        尚硅谷书城.Copyright &copy;2015
+      </span>
+    </div>
+</div>
+</body>
+<script src="../../static/script/vue.js"></script>
+<script>
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            userName: "",
+            passWord: "",
+            errorMsg: "请输入用户名和密码"
+        },
+        methods: {
+            /**
+             * 验证是否为空
+             * @param content 内容
+             * @param errorMsg 错误提示信息
+             * @returns {boolean}
+             */
+            checkNull(content, errorMsg) {
+                var reg = /^\s*$/;
+                if (reg.test(content)) {
+                    //账户为空, 给出错误信息
+                    this.errorMsg = errorMsg;
+                    return true;
+                } else {
+                    //账户不为空, 清空错误提示
+                    this.errorMsg = "";
+                    return false;
+                }
+            },
+            /**
+             * 验证账户是否为空
+             * @returns {*|boolean}
+             */
+            checkUserName() {
+                return this.checkNull(this.userName, "账户不能为空！")
+            },
+            /**
+             * 验证密码是否为空
+             * @returns {*|boolean}
+             */
+            checkPassWord() {
+                return this.checkNull(this.passWord, "密码不能为空！")
+            },
+            /**
+             * 登陆校验
+             */
+            checkLogin() {
+                if (this.checkUserName() && this.checkPassWord()) {
+                    //账户或密码为空, 则禁止登陆
+                    this.errorMsg = "账户和密码不能为空！";
+                    event.preventDefault();
+                } else if (this.checkUserName() || this.checkPassWord()) {
+                    event.preventDefault();
+                }
+
+            }
+        }
+    })
+</script>
+</html>
