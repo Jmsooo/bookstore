@@ -11,7 +11,7 @@ public interface UserDao {
 
     public int deleteUserById(Integer id);
 
-    public int UpdateUserById(User user);
+    public int updateUserById(User user);
 
     public List<User> selectUserList();
 

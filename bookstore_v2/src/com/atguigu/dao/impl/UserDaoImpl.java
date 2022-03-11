@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int UpdateUserById(User user) {
+    public int updateUserById(User user) {
         try {
             connection = JDBCUtils.getConnection();
             return new QueryRunner().update(
@@ -105,7 +105,7 @@ public class UserDaoImpl implements UserDao {
             connection = JDBCUtils.getConnection();
             return new QueryRunner().query(
                     connection,
-                    "select user_id id,user_name username,user_pwd password,email from t_user where id = ?",
+                    "select user_id id,user_name username,user_pwd password,email from t_user where user_id = ?",
                     new BeanHandler<User>(User.class),
                     id
             );
