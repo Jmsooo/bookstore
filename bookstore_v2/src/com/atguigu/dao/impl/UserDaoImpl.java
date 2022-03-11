@@ -1,17 +1,13 @@
 package com.atguigu.dao.impl;
 
+import com.atguigu.base.BaseDao;
 import com.atguigu.bojo.User;
 import com.atguigu.dao.UserDao;
-import com.atguigu.utils.JDBCUtils;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDao<User> implements UserDao {
     Connection connection = null;
 
     @Override
@@ -27,93 +23,47 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public int addUser(User user) {
-        try {
-            connection = JDBCUtils.getConnection();
-            return new QueryRunner().update(
-                    connection,
-                    "insert into t_user values(null,?,?,?)",
-                    user.getUsername(),
-                    user.getPassword(),
-                    user.getEmail()
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        } finally {
-            JDBCUtils.release(connection, null);
-        }
+        return update(
+                "insert into t_user values(null,?,?,?)",
+                user.getUsername(),
+                user.getPassword(),
+                user.getEmail()
+        );
     }
 
     @Override
     public int deleteUserById(Integer id) {
-        try {
-            connection = JDBCUtils.getConnection();
-            return new QueryRunner().update(
-                    connection,
-                    "delete from t_user where user_id = ?",
-                    id
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        } finally {
-            JDBCUtils.release(connection, null);
-        }
+        return update(
+                "delete from t_user where user_id = ?",
+                id
+        );
     }
 
     @Override
     public int updateUserById(User user) {
-        try {
-            connection = JDBCUtils.getConnection();
-            return new QueryRunner().update(
-                    connection,
-                    "update t_user set user_name = ? , user_pwd = ? , email = ? where user_id = ?",
-                    user.getUsername(),
-                    user.getPassword(),
-                    user.getEmail(),
-                    user.getId()
-
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        } finally {
-            JDBCUtils.release(connection, null);
-        }
+        return update(
+                "update t_user set user_name = ? , user_pwd = ? , email = ? where user_id = ?",
+                user.getUsername(),
+                user.getPassword(),
+                user.getEmail(),
+                user.getId()
+        );
     }
 
     @Override
     public List<User> selectUserList() {
-        try {
-            connection = JDBCUtils.getConnection();
-            return new QueryRunner().query(
-                    connection,
-                    "select user_id id,user_name username,user_pwd password,email from t_user",
-                    new BeanListHandler<User>(User.class)
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            JDBCUtils.release(connection, null);
-        }
+        return selectAll(
+                User.class,
+                "select user_id id,user_name username,user_pwd password,email from t_user"
+        );
     }
 
     @Override
     public User selectUserById(Integer id) {
-        try {
-            connection = JDBCUtils.getConnection();
-            return new QueryRunner().query(
-                    connection,
-                    "select user_id id,user_name username,user_pwd password,email from t_user where user_id = ?",
-                    new BeanHandler<User>(User.class),
-                    id
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            JDBCUtils.release(connection, null);
-        }
+        return selectOne(
+                User.class,
+                "select user_id id,user_name username,user_pwd password,email from t_user where user_id = ?",
+                id
+        );
     }
 }

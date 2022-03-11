@@ -19,7 +19,7 @@ public class TestUserDao {
 
     @Test
     public void testDeleteUserById() {
-        int row = userDao.deleteUserById(4);
+        int row = userDao.deleteUserById(5);
         System.out.println("row = " + row);
     }
 
