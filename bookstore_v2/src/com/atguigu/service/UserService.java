@@ -4,6 +4,6 @@ import com.atguigu.bojo.User;
 
 public interface UserService {
 
-    public User login(User user);
+    public User login(String username,String password);
 
 }

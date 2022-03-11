@@ -7,9 +7,9 @@ import com.atguigu.service.UserService;
 
 public class UserServiceImpl implements UserService {
     @Override
-    public User login(User user) {
+    public User login(String username,String password) {
         UserDao userDao = new UserDaoImpl();
-        User loginUser = userDao.login(user);
+        User loginUser = userDao.login(username,password);
         return loginUser;
     }
 }

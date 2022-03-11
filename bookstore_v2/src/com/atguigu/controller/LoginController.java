@@ -18,15 +18,14 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        User user = new User(username,password);
 
         UserService userService = new UserServiceImpl();
-        User loginUser = userService.login(user);
+        User loginUser = userService.login(username, password);
 
-        if (loginUser != null){
-            resp.sendRedirect(req.getContextPath()+"/pages/user/login_success.html");
-        }else {
-            req.getRequestDispatcher("/pages/user/login.html").forward(req,resp);
+        if (loginUser != null) {
+            resp.sendRedirect(req.getContextPath() + "/pages/user/login_success.html");
+        } else {
+            req.getRequestDispatcher("/pages/user/login.html").forward(req, resp);
         }
     }
 
