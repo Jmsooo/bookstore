@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>尚硅谷会员注册页面</title>
+    <base href="/bookstore/"></head>
+    <link type="text/css" rel="stylesheet" href="static/css/style.css" />
+    <link rel="stylesheet" href="static/css/register.css" />
+    <style type="text/css">
+      .login_form {
+        height: 420px;
+        margin-top: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="login_header">
+        <a href="index.html">
+          <img class="logo_img" alt="" src="static/img/logo.gif" />
+        </a>
+      </div>
+
+      <div class="login_banner">
+        <div class="register_form">
+          <h1>注册尚硅谷会员</h1>
+          <form action="regist" @submit="checkRegist()">
+            <div class="form-item">
+              <div>
+                <label>用户名称:</label>
+                <input name="username" type="text" placeholder="请输入用户名" @change="checkUserName()" v-model="userName"/>
+              </div>
+              <span class="errMess" v-text="userNameErrorMsg">用户名应为6~16位数组和字母组成</span>
+            </div>
+            <div class="form-item">
+              <div>
+                <label>用户密码:</label>
+                <input name="password" type="password" placeholder="请输入密码" @change="checkPassWord()" v-model="passWord"/>
+              </div>
+              <span class="errMess" v-text="passWordErrorMsg">密码的长度至少为8位</span>
+            </div>
+            <div class="form-item">
+              <div>
+                <label>确认密码:</label>
+                <input type="password" placeholder="请输入确认密码" @change="checkRePassWord()" v-model="rePassWord"/>
+              </div>
+              <span class="errMess" v-text="rePassWordErrorMsg">密码两次输入不一致</span>
+            </div>
+            <div class="form-item">
+              <div>
+                <label>用户邮箱:</label>
+                <input name="email" type="text" placeholder="请输入邮箱" @change="checkEmail()" v-model="email"/>
+              </div>
+              <span class="errMess" v-text="emailErrorMsg">请输入正确的邮箱格式</span>
+            </div>
+            <div class="form-item">
+              <div>
+                <label>验证码:</label>
+                <div class="verify">
+                  <input type="text" placeholder="" @change="checkCode()" v-model="code"/>
+                  <img src="static/img/code.bmp" alt="" />
+                </div>
+              </div>
+              <span class="errMess" v-text="codeErrorMsg">请输入正确的验证码</span>
+            </div>
+            <button class="btn">注册</button>
+          </form>
+        </div>
+      </div>
+      <div id="bottom">
+      <span>
+        尚硅谷书城.Copyright &copy;2015
+      </span>
+      </div>
+    </div>
+  </body>
+  <script src="static/script/vue.js"></script>
+  <script>
+    var vue = new Vue({
+      el:"#app",
+      data:{
+        userName:"",
+        passWord:"",
+        rePassWord:"",
+        email:"",
+        code:"",
+        userNameErrorMsg:"",
+        passWordErrorMsg:"",
+        rePassWordErrorMsg:"",
+        emailErrorMsg:"",
+        codeErrorMsg:""
+      },
+      methods:{
+        /**
+         * 校验正则表达式
+         * @param reg 正则表达式
+         * @param content 需验证的内容
+         * @returns {boolean}
+         */
+        checkReg(reg,content){
+          if (reg.test(content)){
+            return true;
+          }else {
+            return false;
+          }
+        },
+        /**
+         * 验证用户名
+         * @returns {*|boolean}
+         */
+        checkUserName(){
+          //用户名应为6~16位数字和字母组成
+          var reg = /^[0-9a-zA-Z]{6,16}$/;
+          var result = this.checkReg(reg,this.userName);
+          this.userNameErrorMsg = result ? "":"用户名应为6~16位数字和字母组成！";
+          return result;
+        },
+        /**
+         * 验证密码
+         * @returns {*|boolean}
+         */
+        checkPassWord(){
+          //密码的长度至少为8位
+          var reg = /^.{8,}$/;
+          var result = this.checkReg(reg,this.passWord);
+          this.passWordErrorMsg = this.checkReg(reg,this.passWord) ? "":"密码的长度至少为8位！";
+          return result;
+        },
+        /**
+         * 验证确认密码
+         * @returns {boolean}
+         */
+        checkRePassWord(){
+          if (this.passWord == this.rePassWord){
+            this.rePassWordErrorMsg = "";
+            return true;
+          }else {
+            this.rePassWordErrorMsg = "两次密码不一致！"
+            return false;
+          }
+        },
+        /**
+         * 验证邮箱
+         * @returns {*|boolean}
+         */
+        checkEmail(){
+          //请输入正确的邮箱格式
+          var reg = /^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+[\.]{1})+[a-zA-Z]+$/;
+          var result = this.checkReg(reg,this.email);
+          this.emailErrorMsg = result ? "":"请输入正确的邮箱格式！";
+          return result;
+        },
+        /**
+         * 验证码
+         * @returns {*|boolean}
+         */
+        checkCode(){
+          //小写字母和数字组成五位
+          var reg = /^[a-z0-9]{5}$/;
+          var result = this.checkReg(reg,this.code);
+          this.codeErrorMsg = result ? "":"验证码格式不对！";
+          return result;
+        },
+        /**
+         * 注册表单校验
+         */
+        checkRegist(){
+          if (!this.checkUserName() || !this.checkPassWord() || !this.checkRePassWord() || !this.checkEmail() || !this.checkCode()){
+            event.preventDefault();
+          }
+        }
+      }
+    })
+  </script>
+</html>
