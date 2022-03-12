@@ -24,18 +24,18 @@
       <div class="login_banner">
         <div class="register_form">
           <h1>注册尚硅谷会员</h1>
-          <form action="regist_success.html" @submit="checkRegist()">
+          <form action="regist" @submit="checkRegist()">
             <div class="form-item">
               <div>
                 <label>用户名称:</label>
-                <input type="text" placeholder="请输入用户名" @change="checkUserName()" v-model="userName"/>
+                <input name="username" type="text" placeholder="请输入用户名" @change="checkUserName()" v-model="userName"/>
               </div>
               <span class="errMess" v-text="userNameErrorMsg">用户名应为6~16位数组和字母组成</span>
             </div>
             <div class="form-item">
               <div>
                 <label>用户密码:</label>
-                <input type="password" placeholder="请输入密码" @change="checkPassWord()" v-model="passWord"/>
+                <input name="password" type="password" placeholder="请输入密码" @change="checkPassWord()" v-model="passWord"/>
               </div>
               <span class="errMess" v-text="passWordErrorMsg">密码的长度至少为8位</span>
             </div>
@@ -49,7 +49,7 @@
             <div class="form-item">
               <div>
                 <label>用户邮箱:</label>
-                <input type="text" placeholder="请输入邮箱" @change="checkEmail()" v-model="email"/>
+                <input name="email" type="text" placeholder="请输入邮箱" @change="checkEmail()" v-model="email"/>
               </div>
               <span class="errMess" v-text="emailErrorMsg">请输入正确的邮箱格式</span>
             </div>
