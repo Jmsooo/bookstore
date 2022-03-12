@@ -4,6 +4,7 @@ import com.atguigu.bojo.User;
 import com.atguigu.dao.UserDao;
 import com.atguigu.dao.impl.UserDaoImpl;
 import com.atguigu.service.UserService;
+import com.atguigu.utils.MD5Utils;
 
 public class UserServiceImpl implements UserService {
     UserDao userDao = new UserDaoImpl();
@@ -15,6 +16,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int regist(User user) {
+        //对密码进行MD5加密
+        String password = user.getPassword();
+        String salt = MD5Utils.generateSalt();
+        String md5Password = MD5Utils.generateMD5AndSalt(password, salt);
+        user.setPassword(md5Password);
         return userDao.addUser(user);
     }
 
