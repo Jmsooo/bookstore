@@ -12,13 +12,12 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
 
     @Override
     public User login(String username, String password) {
-        User user = null;
-        if ("admin".equals(username) && "123456".equals(password)) {
-            user = new User(1, username, password, "123456@qq.com");
-            return user;
-        } else {
-            return null;
-        }
+        return selectOne(
+                User.class,
+                "select user_id id,user_name username,user_pwd password,email from t_user where user_name = ? and user_pwd = ?",
+                username,
+                password
+        );
     }
 
     @Override

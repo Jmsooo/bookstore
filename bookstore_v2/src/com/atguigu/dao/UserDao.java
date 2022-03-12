@@ -5,6 +5,7 @@ import com.atguigu.bojo.User;
 import java.util.List;
 
 public interface UserDao {
+
     public User login(String username,String password);
 
     public int addUser(User user);
