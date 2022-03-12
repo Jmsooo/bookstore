@@ -11,7 +11,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String username, String password) {
-        return userDao.login(username, password);
+        //先查询该用户是否存在
+        User user = userDao.selectUserByName(username);
+        if (user == null){
+            return null;
+        }
+
+        boolean verify = MD5Utils.verify(password, user.getPassword());
+        return verify ? user : null;
     }
 
     @Override
