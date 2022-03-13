@@ -14,4 +14,21 @@ public class BookDaoImpl extends BaseDao<Book> implements BookDao {
                 "select book_id bookId,book_name bookName,author,price,sales,stock,img_path imgPath from t_book"
         );
     }
+
+    @Override
+    public Long selectCount() {
+        return selectCount(
+                "select count(*) from t_book"
+        );
+    }
+
+    @Override
+    public List<Book> selectBookListByPage(Integer begin, Integer pageSize) {
+        return selectAll(
+                Book.class,
+                "select book_id bookId,book_name bookName,author,price,sales,stock,img_path imgPath from t_book limit ?,?",
+                begin,
+                pageSize
+        );
+    }
 }

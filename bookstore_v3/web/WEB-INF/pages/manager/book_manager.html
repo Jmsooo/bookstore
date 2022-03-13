@@ -4,24 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../../static/css/minireset.css" />
-    <link rel="stylesheet" href="../../static/css/common.css" />
-    <link rel="stylesheet" href="../../static/css/cart.css" />
-    <link rel="stylesheet" href="../../static/css/bookManger.css" />
+    <link rel="stylesheet" href="static/css/minireset.css" />
+    <link rel="stylesheet" href="static/css/common.css" />
+    <link rel="stylesheet" href="static/css/cart.css" />
+    <link rel="stylesheet" href="static/css/bookManger.css" />
   </head>
   <body>
     <div class="header">
       <div class="w">
         <div class="header-left">
-          <a href="../../index.html">
-            <img src="../../static/img/logo.gif" alt=""
+          <a href="index.html">
+            <img src="static/img/logo.gif" alt=""
           /></a>
           <h1>图书管理系统</h1>
         </div>
         <div class="header-right">
           <a href="#" class="order">图书管理</a>
           <a href="./order_manager.html" class="destory">订单管理</a>
-          <a href="../../index.html" class="gohome">返回商城</a>
+          <a href="index.html" class="gohome">返回商城</a>
         </div>
       </div>
     </div>
@@ -43,32 +43,25 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr th:each="book:${pageInfo.data}">
               <td>
-                <img src="../../static/uploads/huozhe.jpg" alt="" />
+                <img th:src="${book.imgPath}" alt="" />
               </td>
-              <td>活着</td>
               <td>
-                100.00
+                <span th:text="${book.bookName}"></span>
               </td>
-              <td>余华</td>
-              <td>200</td>
-              <td>400</td>
               <td>
-                <a href="book_edit.html">修改</a><a href="" class="del">删除</a>
+                <span th:text="${book.price}"></span>
               </td>
-            </tr>
-            <tr>
               <td>
-                <img src="../../static/uploads/huozhe.jpg" alt="" />
+                <span th:text="${book.author}"></span>
               </td>
-              <td>活着</td>
               <td>
-                100.00
+                <span th:text="${book.sales}"></span>
               </td>
-              <td>余华</td>
-              <td>200</td>
-              <td>400</td>
+              <td>
+                <span th:text="${book.stock}"></span>
+              </td>
               <td>
                 <a href="book_edit.html">修改</a><a href="" class="del">删除</a>
               </td>
@@ -77,17 +70,23 @@
         </table>
         <div class="footer">
           <div class="footer-right">
-            <div>首页</div>
-            <div>上一页</div>
+            <div>
+              <a th:href="@{/bookManager(method=toBookManagerPage,currentPage=1)}">首页</a>
+            </div>
+            <div>
+              <a th:href="@{/bookManager(method=toBookManagerPage,currentPage=${pageInfo.currentPage-1})}">上一页</a>
+            </div>
             <ul>
-              <li class="active">1</li>
-              <li>2</li>
-              <li>3</li>
+              <li th:each="pageNum:${#numbers.sequence(1,pageInfo.totalPage)}" th:text="${pageNum}" th:class="${pageNum==pageInfo.currentPage?'active':''}"></li>
             </ul>
-            <div>下一页</div>
-            <div>末页</div>
-            <span>共10页</span>
-            <span>30条记录</span>
+            <div>
+              <a th:href="@{/bookManager(method=toBookManagerPage,currentPage=${pageInfo.currentPage+1})}">下一页</a>
+            </div>
+            <div>
+              <a th:href="@{/bookManager(method=toBookManagerPage,currentPage=${pageInfo.totalPage})}">末页</a>
+            </div>
+            <span>共<span th:text="${pageInfo.totalPage}"></span>页</span>
+            <span><span th:text="${pageInfo.totalSize}"></span>条记录</span>
             <span>到第</span>
             <input type="text" />
             <span>页</span>
@@ -102,19 +101,19 @@
           <ul>
             <li>
               <a href="">
-                <img src="../../static/img/bottom1.png" alt="" />
+                <img src="static/img/bottom1.png" alt="" />
                 <span>大咖级讲师亲自授课</span>
               </a>
             </li>
             <li>
               <a href="">
-                <img src="../../static/img/bottom.png" alt="" />
+                <img src="static/img/bottom.png" alt="" />
                 <span>课程为学员成长持续赋能</span>
               </a>
             </li>
             <li>
               <a href="">
-                <img src="../../static/img/bottom2.png" alt="" />
+                <img src="static/img/bottom2.png" alt="" />
                 <span>学员真是情况大公开</span>
               </a>
             </li>

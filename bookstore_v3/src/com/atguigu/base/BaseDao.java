@@ -4,6 +4,7 @@ import com.atguigu.utils.JDBCUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -53,6 +54,23 @@ public class BaseDao<T> {
                     connection,
                     sql,
                     new BeanHandler<T>(clazz),
+                    args
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            JDBCUtils.release(connection, null);
+        }
+    }
+
+    public Long selectCount(String sql,Object... args){
+        try {
+            connection = JDBCUtils.getConnection();
+            return new QueryRunner().query(
+                    connection,
+                    sql,
+                    new ScalarHandler<>(),
                     args
             );
         } catch (SQLException e) {
