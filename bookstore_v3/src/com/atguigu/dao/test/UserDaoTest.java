@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class TestUserDao {
+public class UserDaoTest {
     UserDao userDao = new UserDaoImpl();
 
     @Test
     public void testAddUser() {
-        User user = new User("jiaming", "jiaming", "jiaming@163.com");
+        User user = new User(1,"jiaming", "jiaming", "jiaming@163.com");
         int row = userDao.addUser(user);
         System.out.println("row = " + row);
     }
