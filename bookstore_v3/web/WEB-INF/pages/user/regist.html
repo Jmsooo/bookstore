@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>尚硅谷会员注册页面</title>
-    <base href="/bookstore/"></head>
     <link type="text/css" rel="stylesheet" href="static/css/style.css" />
     <link rel="stylesheet" href="static/css/register.css" />
     <style type="text/css">
@@ -24,7 +23,8 @@
       <div class="login_banner">
         <div class="register_form">
           <h1>注册尚硅谷会员</h1>
-          <form action="regist" @submit="checkRegist()">
+          <form action="user" @submit="checkRegist()">
+            <input type="hidden" name="method" value="regist">
             <div class="form-item">
               <div>
                 <label>用户名称:</label>
@@ -84,7 +84,7 @@
         rePassWord:"",
         email:"",
         code:"",
-        userNameErrorMsg:"",
+        userNameErrorMsg:"[[${errorMsg}]]",
         passWordErrorMsg:"",
         rePassWordErrorMsg:"",
         emailErrorMsg:"",

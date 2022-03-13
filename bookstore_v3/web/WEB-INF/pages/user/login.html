@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>尚硅谷会员登录页面</title>
-    <base href="/bookstore/"></head>
+    <base th:href="@{/}">
     <link type="text/css" rel="stylesheet" href="static/css/style.css"/>
 </head>
 <body>
@@ -29,7 +29,8 @@
                         <span class="errorMsg" v-text="errorMsg">请输入用户名和密码</span>
                     </div>
                     <div class="form">
-                        <form action="login" @submit="checkLogin()" method="post">
+                        <form action="user" @submit="checkLogin()">
+                            <input type="hidden" name="method" value="login">
                             <label>用户名称：</label>
                             <input
                                     class="itxt"
@@ -61,7 +62,7 @@
                             <input type="submit" value="登录" id="sub_btn"/>
                         </form>
                         <div class="tit">
-                            <a href="pages/user/regist.html">立即注册</a>
+                            <a th:href="@{/user(method=toRegistPage)}">立即注册</a>
                         </div>
                     </div>
                 </div>
@@ -82,7 +83,7 @@
         data: {
             userName: "",
             passWord: "",
-            errorMsg: "请输入用户名和密码"
+            errorMsg: "[[${errorMsg}]]"
         },
         methods: {
             /**
@@ -130,6 +131,9 @@
                 }
 
             }
+        },
+        created(){
+            this.errorMsg="请输入用户名和密码";
         }
     })
 </script>

@@ -20,8 +20,8 @@
             <i class="iconfont icon-ai-arrow-down"></i>
           </div>
           <div class="topbar-right">
-            <a href="./pages/user/login.html" class="login">登录</a>
-            <a href="./pages/user/regist.html" class="register">注册</a>
+            <a th:href="@{/user(method=toLoginPage)}" class="login">登录</a>
+            <a th:href="@{/user(method=toRegistPage)}" class="register">注册</a>
             <a
               href="./pages/cart/cart.html"
               class="cart iconfont icon-gouwuche
