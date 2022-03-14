@@ -48,12 +48,15 @@ public class BookManagerController extends ModelBaseServlet {
                 //添加成功
                 response.sendRedirect(request.getContextPath() + "/bookManager?method=toBookManagerPage&currentPage=1");
             } else {
-                //添加失败
+                //添加失败 - 数据回写
                 request.setAttribute("book", book);
                 toAddBookPage(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            //异常 - 数据回写
+            request.setAttribute("book", book);
+            toAddBookPage(request, response);
         }
     }
 
@@ -87,12 +90,19 @@ public class BookManagerController extends ModelBaseServlet {
                 //修改成功
                 response.sendRedirect(request.getContextPath() + "/bookManager?method=toBookManagerPage&currentPage=1");
             }else {
-                //修改失败
+                //修改失败 - 数据回写
                 request.setAttribute("book",book);
                 processTemplate("pages/manager/book_edit",request,response);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                //异常 - 数据回写
+                request.setAttribute("book",book);
+                processTemplate("pages/manager/book_edit",request,response);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
