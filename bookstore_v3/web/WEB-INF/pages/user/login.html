@@ -132,9 +132,16 @@
 
             }
         },
-        created() {
+        /*created() {
+            console.log("[[${errorMsg}]]");
             this.errorMsg = "请输入用户名和密码";
-            if ("[[${errorMsg}]]" != null){
+
+        }*/
+        created() {
+            console.log("[[${errorMsg}]]");
+            if ("[[${errorMsg}]]" == ""){
+                this.errorMsg = "请输入用户名和密码";
+            }else {
                 this.errorMsg = "[[${errorMsg}]]";
             }
         }
