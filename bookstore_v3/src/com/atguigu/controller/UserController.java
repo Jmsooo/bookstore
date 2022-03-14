@@ -29,6 +29,7 @@ public class UserController extends ModelBaseServlet {
                 String errorMsg = "账户或密码错误";
                 req.setAttribute("errorMsg",errorMsg);
                 toLoginPage(req, resp);
+                return;
             }
         } catch (Exception e) {
             e.printStackTrace();

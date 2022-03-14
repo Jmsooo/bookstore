@@ -26,7 +26,7 @@
                     </div>
                     <div class="msg_cont">
                         <b></b>
-                        <span class="errorMsg" v-text="errorMsg">请输入用户名和密码</span>
+                        <span class="errorMsg" v-text="errorMsg" style="color: red"></span>
                     </div>
                     <div class="form">
                         <form action="user" @submit="checkLogin()">
@@ -83,7 +83,7 @@
         data: {
             userName: "",
             passWord: "",
-            errorMsg: "[[${errorMsg}]]"
+            errorMsg: ""
         },
         methods: {
             /**
@@ -132,8 +132,11 @@
 
             }
         },
-        created(){
-            this.errorMsg="请输入用户名和密码";
+        created() {
+            this.errorMsg = "请输入用户名和密码";
+            if ("[[${errorMsg}]]" != null){
+                this.errorMsg = "[[${errorMsg}]]";
+            }
         }
     })
 </script>
