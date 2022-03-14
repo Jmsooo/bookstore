@@ -12,4 +12,10 @@ public interface BookDao {
     List<Book> selectBookListByPage(Integer begin, Integer pageSize);
 
     int addBook(Book book);
+
+    void deleteBook(Integer bookId);
+
+    Book selectBookById(Integer bookId);
+
+    int updateBook(Book book);
 }

@@ -6,6 +6,7 @@ import com.atguigu.dao.BookDao;
 import com.atguigu.dao.impl.BookDaoImpl;
 import com.atguigu.service.BookService;
 
+import java.io.BufferedOutputStream;
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
@@ -42,5 +43,23 @@ public class BookServiceImpl implements BookService {
     public int addBook(Book book) {
         BookDao bookDao = new BookDaoImpl();
         return bookDao.addBook(book);
+    }
+
+    @Override
+    public void deleteBook(Integer bookId) {
+        BookDao bookDao = new BookDaoImpl();
+        bookDao.deleteBook(bookId);
+    }
+
+    @Override
+    public Book selectBookById(Integer bookId) {
+        BookDao bookDao = new BookDaoImpl();
+        return bookDao.selectBookById(bookId);
+    }
+
+    @Override
+    public int updateBook(Book book) {
+        BookDao bookDao = new BookDaoImpl();
+        return bookDao.updateBook(book);
     }
 }

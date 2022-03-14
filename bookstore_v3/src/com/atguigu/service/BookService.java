@@ -11,4 +11,10 @@ public interface BookService {
     PageInfo<Book> selectBookListByPage(Integer currentPage);
 
     int addBook(Book book);
+
+    void deleteBook(Integer bookId);
+
+    Book selectBookById(Integer bookId);
+
+    int updateBook(Book book);
 }
