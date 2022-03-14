@@ -20,7 +20,7 @@
             <h1>图书管理系统</h1>
         </div>
         <div class="header-right">
-            <a href="#" class="order">图书管理</a>
+            <a th:href="@{/bookManager(method=toBookManagerPage,currentPage=1)}" class="order">图书管理</a>
             <a href="./order_manager.html" class="destory">订单管理</a>
             <a href="index.html" class="gohome">返回商城</a>
         </div>
@@ -29,7 +29,7 @@
 <div class="list">
     <div class="w">
         <div class="add">
-            <a href="book_edit.html">添加图书</a>
+            <a th:href="@{/bookManager(method=toAddBookPage)}">添加图书</a>
         </div>
         <table>
             <thead>

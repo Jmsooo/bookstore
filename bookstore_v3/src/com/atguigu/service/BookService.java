@@ -9,4 +9,6 @@ public interface BookService {
     public List<Book> selectBookList();
 
     PageInfo<Book> selectBookListByPage(Integer currentPage);
+
+    int addBook(Book book);
 }

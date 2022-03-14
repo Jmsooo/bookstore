@@ -31,4 +31,17 @@ public class BookDaoImpl extends BaseDao<Book> implements BookDao {
                 pageSize
         );
     }
+
+    @Override
+    public int addBook(Book book) {
+        return update(
+                "insert into t_book values(null,?,?,?,?,?,?)",
+                book.getBookName(),
+                book.getAuthor(),
+                book.getPrice(),
+                book.getSales(),
+                book.getStock(),
+                "static/uploads/santi.jpg"
+        );
+    }
 }

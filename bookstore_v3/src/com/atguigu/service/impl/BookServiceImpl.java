@@ -37,4 +37,10 @@ public class BookServiceImpl implements BookService {
         pageInfo.setData(bookList);
         return pageInfo;
     }
+
+    @Override
+    public int addBook(Book book) {
+        BookDao bookDao = new BookDaoImpl();
+        return bookDao.addBook(book);
+    }
 }

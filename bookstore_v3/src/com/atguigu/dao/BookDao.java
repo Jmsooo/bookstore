@@ -10,4 +10,6 @@ public interface BookDao {
     Long selectCount();
 
     List<Book> selectBookListByPage(Integer begin, Integer pageSize);
+
+    int addBook(Book book);
 }
