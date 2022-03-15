@@ -53,7 +53,7 @@ public class UserController extends ModelBaseServlet {
             //页面输入的验证码
             String code = req.getParameter("code");
             //获取kaptcha中的验证码
-            String kaptcha = (String) req.getSession().getAttribute(BaseConstant.SESSION_kEY_REGIST_CODE);
+            String kaptcha = (String) req.getSession().getAttribute(BaseConstant.SESSION_KEY_REGIST_CODE);
 
             if (existUser != null) {
                 //用户存在
