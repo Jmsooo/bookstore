@@ -1,5 +1,6 @@
 package com.atguigu.controller;
 
+import com.atguigu.base.BaseConstant;
 import com.atguigu.base.ModelBaseServlet;
 import com.atguigu.bojo.User;
 import com.atguigu.service.UserService;
@@ -19,11 +20,14 @@ public class UserController extends ModelBaseServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
+        System.out.println("password = " + password);
+
         UserService userService = new UserServiceImpl();
         User loginUser = userService.login(username, password);
 
         try {
             if (loginUser != null) {
+                req.getSession().setAttribute("loginUser",loginUser);
                 resp.sendRedirect(req.getContextPath() + "/user?method=toLoginSuccessPage");
             } else {
                 String errorMsg = "账户或密码错误";
