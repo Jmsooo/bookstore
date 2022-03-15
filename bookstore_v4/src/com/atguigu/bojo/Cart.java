@@ -1,5 +1,6 @@
 package com.atguigu.bojo;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,11 +37,11 @@ public class Cart {
      */
     public Double getTotalAmount() {
         Collection<CartItem> cartItems = cartItemMap.values();
-        Double totalAmount = 0.0;
+        BigDecimal totalAmountBig = new BigDecimal(0.0 + "");
         for (CartItem cartItem : cartItems) {
-            totalAmount += cartItem.getAmount();
+            totalAmountBig = totalAmountBig.add(new BigDecimal(cartItem.getAmount() + ""));
         }
-        this.totalAmount = totalAmount;
+        this.totalAmount = totalAmountBig.doubleValue();
         return this.totalAmount;
     }
 

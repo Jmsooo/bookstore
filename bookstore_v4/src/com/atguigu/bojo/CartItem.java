@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +35,8 @@ public class CartItem {
      * 计算商品小计
      */
     public Double getAmount() {
-        return this.count * this.price;
+        BigDecimal countBig = new BigDecimal(this.count + "");
+        BigDecimal priceBig = new BigDecimal(this.price + "");
+        return countBig.multiply(priceBig).doubleValue();
     }
 }

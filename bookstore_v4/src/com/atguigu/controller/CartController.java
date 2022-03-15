@@ -17,22 +17,22 @@ import java.util.Map;
 @WebServlet("/cart")
 public class CartController extends ModelBaseServlet {
 
-    public void addBookToCart(HttpServletRequest request, HttpServletResponse response){
+    public void addBookToCart(HttpServletRequest request, HttpServletResponse response) {
         String bookId = request.getParameter("bookId");
         BookService bookService = new BookServiceImpl();
         Book book = bookService.selectBookById(Integer.parseInt(bookId));
 
         Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
 
-        if (existCart == null){
+        if (existCart == null) {
             //第一次加入购物车
             existCart = new Cart();
-        }else {
+        } else {
             //不是第一次
         }
 
         existCart.addBookToCart(book);
-        request.getSession().setAttribute(BaseConstant.SESSION_KEY_CART,existCart);
+        request.getSession().setAttribute(BaseConstant.SESSION_KEY_CART, existCart);
 
         try {
             response.sendRedirect(request.getContextPath() + "/index.html");
@@ -41,24 +41,73 @@ public class CartController extends ModelBaseServlet {
         }
     }
 
-    public void toCartPage(HttpServletRequest request, HttpServletResponse response){
+    public void toCartPage(HttpServletRequest request, HttpServletResponse response) {
         try {
-            processTemplate("pages/cart/cart",request,response);
+            processTemplate("pages/cart/cart", request, response);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void clearCart(HttpServletRequest request,HttpServletResponse response){
+    public void clearCart(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(BaseConstant.SESSION_KEY_CART);
-        toCartPage(request, response);
+        try {
+            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void deleteCart(HttpServletRequest request,HttpServletResponse response){
+    public void deleteCart(HttpServletRequest request, HttpServletResponse response) {
         String bookId = request.getParameter("bookId");
         Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
         existCart.removeCartItem(Integer.parseInt(bookId));
-        toCartPage(request, response);
+        try {
+            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cartItemCountDecrease(HttpServletRequest request, HttpServletResponse response) {
+        String bookId = request.getParameter("bookId");
+        Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
+        Integer count = existCart.getCartItemMap().get(Integer.parseInt(bookId)).getCount();
+
+        if (count == 1) {
+            existCart.removeCartItem(Integer.parseInt(bookId));
+        } else {
+            existCart.cartItemCountDecrease(Integer.parseInt(bookId));
+        }
+
+        try {
+            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cartItemCountIncrease(HttpServletRequest request, HttpServletResponse response) {
+        String bookId = request.getParameter("bookId");
+        Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
+        existCart.cartItemCountIncrease(Integer.parseInt(bookId));
+        try {
+            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCartItemCount(HttpServletRequest request, HttpServletResponse response) {
+        String bookId = request.getParameter("bookId");
+        String newCount = request.getParameter("newCount");
+        Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
+        existCart.updateCartItemCount(Integer.parseInt(bookId), Integer.parseInt(newCount));
+        try {
+            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
