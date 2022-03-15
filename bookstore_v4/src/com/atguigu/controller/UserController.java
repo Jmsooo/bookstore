@@ -75,6 +75,15 @@ public class UserController extends ModelBaseServlet {
         }
     }
 
+    public void logout(HttpServletRequest req, HttpServletResponse resp){
+        req.getSession().removeAttribute(BaseConstant.SESSION_LOGIN_USER);
+        try {
+            resp.sendRedirect(req.getContextPath()+"/index.html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void toRegistPage(HttpServletRequest req, HttpServletResponse resp){
         try {
             processTemplate("pages/user/regist",req,resp);
