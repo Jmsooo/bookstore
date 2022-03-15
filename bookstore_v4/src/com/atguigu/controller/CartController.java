@@ -40,7 +40,11 @@ public class CartController extends ModelBaseServlet {
     }
 
     public void toCartPage(HttpServletRequest request, HttpServletResponse response){
-        processTemplate("");
+        try {
+            processTemplate("pages/cart/cart",request,response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
