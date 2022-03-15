@@ -25,7 +25,7 @@ public class UserController extends ModelBaseServlet {
         try {
             if (loginUser != null) {
                 //将用户信息存入session 实现保持登录功能
-                req.getSession().setAttribute(BaseConstant.SESSION_LOGIN_USER,loginUser);
+                req.getSession().setAttribute(BaseConstant.SESSION_KEY_USER,loginUser);
                 resp.sendRedirect(req.getContextPath() + "/user?method=toLoginSuccessPage");
             } else {
                 String errorMsg = "账户或密码错误";
@@ -76,7 +76,7 @@ public class UserController extends ModelBaseServlet {
     }
 
     public void logout(HttpServletRequest req, HttpServletResponse resp){
-        req.getSession().removeAttribute(BaseConstant.SESSION_LOGIN_USER);
+        req.getSession().removeAttribute(BaseConstant.SESSION_KEY_USER);
         try {
             resp.sendRedirect(req.getContextPath()+"/index.html");
         } catch (IOException e) {
