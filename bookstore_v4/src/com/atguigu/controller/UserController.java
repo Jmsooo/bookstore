@@ -25,7 +25,7 @@ public class UserController extends ModelBaseServlet {
         try {
             if (loginUser != null) {
                 //将用户信息存入session 实现保持登录功能
-                req.getSession().setAttribute(BaseConstant.SESSION_KEY_USER,loginUser);
+                req.getSession().setAttribute(BaseConstant.SESSION_KEY_LOGIN_USER,loginUser);
                 resp.sendRedirect(req.getContextPath() + "/user?method=toLoginSuccessPage");
             } else {
                 String errorMsg = "账户或密码错误";
@@ -50,10 +50,23 @@ public class UserController extends ModelBaseServlet {
             UserService userService = new UserServiceImpl();
             User existUser = userService.selectUserByName(user.getUsername());
 
+            //页面输入的验证码
+            String code = req.getParameter("code");
+            //获取kaptcha中的验证码
+            String kaptcha = (String) req.getSession().getAttribute(BaseConstant.SESSION_kEY_REGIST_CODE);
+
             if (existUser != null) {
                 //用户存在
                 String errorMsg = "用户已经存在!";
                 req.setAttribute("errorMsg",errorMsg);
+                toRegistPage(req, resp);
+                return;
+            }
+
+            if (!code.equals(kaptcha)){
+                //验证码匹配不对
+                String errorCode = "验证码错误";
+                req.setAttribute("errorCode",errorCode);
                 toRegistPage(req, resp);
                 return;
             }
@@ -76,7 +89,7 @@ public class UserController extends ModelBaseServlet {
     }
 
     public void logout(HttpServletRequest req, HttpServletResponse resp){
-        req.getSession().removeAttribute(BaseConstant.SESSION_KEY_USER);
+        req.getSession().removeAttribute(BaseConstant.SESSION_KEY_LOGIN_USER);
         try {
             resp.sendRedirect(req.getContextPath()+"/index.html");
         } catch (IOException e) {

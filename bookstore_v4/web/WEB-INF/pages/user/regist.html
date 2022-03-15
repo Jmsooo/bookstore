@@ -60,8 +60,8 @@
                     <div>
                         <label>验证码:</label>
                         <div class="verify">
-                            <input type="text" placeholder="" @change="checkCode()" v-model="code"/>
-                            <img src="static/img/code.bmp" alt=""/>
+                            <input type="text" placeholder="" @change="checkCode()" v-model="code" name="code"/>
+                            <img id="codeImg" th:src="kaptcha" alt="" @click="refreshImg()"/>
                         </div>
                     </div>
                     <span class="errMess" v-text="codeErrorMsg">请输入正确的验证码</span>
@@ -91,7 +91,7 @@
             passWordErrorMsg: "",
             rePassWordErrorMsg: "",
             emailErrorMsg: "",
-            codeErrorMsg: ""
+            codeErrorMsg: "[[${errorCode}]]"
         },
         methods: {
             /**
@@ -171,6 +171,10 @@
                 if (!this.checkUserName() || !this.checkPassWord() || !this.checkRePassWord() || !this.checkEmail() || !this.checkCode()) {
                     event.preventDefault();
                 }
+            },
+            refreshImg() {
+                var codeImg = document.getElementById("codeImg");
+                codeImg.setAttribute("src", "kaptcha?" + new Date());
             }
         }
     })
