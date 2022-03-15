@@ -1,5 +1,6 @@
 package com.atguigu.controller;
 
+import com.atguigu.base.BaseConstant;
 import com.atguigu.base.ModelBaseServlet;
 import com.atguigu.bojo.User;
 import com.atguigu.service.UserService;
@@ -23,6 +24,8 @@ public class UserController extends ModelBaseServlet {
 
         try {
             if (loginUser != null) {
+                //将用户信息存入session 实现保持登录功能
+                req.getSession().setAttribute(BaseConstant.SESSION_LOGIN_USER,loginUser);
                 resp.sendRedirect(req.getContextPath() + "/user?method=toLoginSuccessPage");
             } else {
                 String errorMsg = "账户或密码错误";
