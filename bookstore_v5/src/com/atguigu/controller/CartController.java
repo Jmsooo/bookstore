@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/cart")
+@WebServlet("/protected/cart")
 public class CartController extends ModelBaseServlet {
 
     public void addBookToCart(HttpServletRequest request, HttpServletResponse response) {
@@ -50,7 +50,7 @@ public class CartController extends ModelBaseServlet {
     public void clearCart(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(BaseConstant.SESSION_KEY_CART);
         try {
-            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +61,7 @@ public class CartController extends ModelBaseServlet {
         Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
         existCart.removeCartItem(Integer.parseInt(bookId));
         try {
-            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,7 +79,7 @@ public class CartController extends ModelBaseServlet {
         }
 
         try {
-            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +90,7 @@ public class CartController extends ModelBaseServlet {
         Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
         existCart.cartItemCountIncrease(Integer.parseInt(bookId));
         try {
-            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,7 +102,7 @@ public class CartController extends ModelBaseServlet {
         Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
         existCart.updateCartItemCount(Integer.parseInt(bookId), Integer.parseInt(newCount));
         try {
-            response.sendRedirect(request.getContextPath() + "/cart?method=toCartPage");
+            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
         } catch (IOException e) {
             e.printStackTrace();
         }

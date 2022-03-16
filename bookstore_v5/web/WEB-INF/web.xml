@@ -31,4 +31,26 @@
         <url-pattern>/kaptcha</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>encoding</filter-name>
+        <filter-class>com.atguigu.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>login</filter-name>
+        <filter-class>com.atguigu.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>login</filter-name>
+        <url-pattern>/protected/*</url-pattern>
+    </filter-mapping>
+
 </web-app>

@@ -24,7 +24,7 @@
             <div class="topbar-right" th:if="${session.loginUser == null}">
                 <a th:href="@{/user(method=toLoginPage)}" class="login">登录</a>
                 <a th:href="@{/user(method=toRegistPage)}" class="register">注册</a>
-                <a th:href="@{/cart(method=toCartPage)}" class="cart iconfont icon-gouwuche">
+                <a th:href="@{/protected/cart(method=toCartPage)}" class="cart iconfont icon-gouwuche">
                     购物车
                     <div class="cart-num" th:if="${session.existCart==null||session.existCart.totalCount==0}">0</div>
                     <div class="cart-num" th:unless="${session.existCart==null||session.existCart.totalCount==0}" th:text="${session.existCart.totalCount}">0</div>
@@ -35,7 +35,7 @@
             <div class="topbar-right" th:unless="${session.loginUser == null}">
                 <span>欢迎 <b th:text="${session.loginUser.username}">张总</b></span>
                 <a th:href="@{/user(method=logout)}" class="register">注销</a>
-                <a href="pages/cart/cart.jsp" class="cart iconfont icon-gouwuche">
+                <a th:href="@{/protected/cart(method=toCartPage)}" class="cart iconfont icon-gouwuche">
                     购物车
                     <div class="cart-num" th:if="${session.existCart==null||session.existCart.totalCount==0}">0</div>
                     <div class="cart-num" th:unless="${session.existCart==null||session.existCart.totalCount==0}" th:text="${session.existCart.totalCount}">0</div>
@@ -156,7 +156,7 @@
                         <p>价格:<span th:text="${book.price}"></span></p>
                         <p>销量:<span th:text="${book.sales}"></span></p>
                         <p>库存:<span th:text="${book.stock}"></span></p>
-                        <a th:href="@{/cart(method=addBookToCart,bookId=${book.bookId})}">
+                        <a th:href="@{/protected/cart(method=addBookToCart,bookId=${book.bookId})}">
                             加入购物车
                         </a>
                     </div>
