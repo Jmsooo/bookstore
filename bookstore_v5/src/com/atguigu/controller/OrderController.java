@@ -10,8 +10,9 @@ import com.atguigu.service.impl.OrderServiceImpl;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-@WebServlet("/order")
+@WebServlet("/protected/order")
 public class OrderController extends ModelBaseServlet {
 
     public void checkout(HttpServletRequest request, HttpServletResponse response){
@@ -22,7 +23,25 @@ public class OrderController extends ModelBaseServlet {
         OrderService orderService = new OrderServiceImpl();
         String orderSequence = orderService.checkout(existCart, loginUser);
 
+        request.getSession().removeAttribute(BaseConstant.SESSION_KEY_CART);
+        request.getSession().setAttribute("orderSequence",orderSequence);
+        try {
+            response.sendRedirect(request.getContextPath()+"/protected/order?method=toCheckOutPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
+
+    public void toCheckOutPage(HttpServletRequest request, HttpServletResponse response){
+        try {
+            processTemplate("pages/cart/checkout",request,response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }

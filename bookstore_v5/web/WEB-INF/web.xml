@@ -53,4 +53,13 @@
         <url-pattern>/protected/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>closeConnectionFilter</filter-name>
+        <filter-class>com.atguigu.filter.CloseConnectionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>closeConnectionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
