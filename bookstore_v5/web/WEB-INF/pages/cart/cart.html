@@ -96,7 +96,7 @@
                     <div class="total-price" th:unless="${session.existCart==null}">
                         总金额<span th:text="${session.existCart.getTotalAmount()}">0</span>元
                     </div>
-                    <a class="pay" href="checkout.html">去结账</a>
+                    <a class="pay" th:href="@{/order(method=checkout)}">去结账</a>
                 </div>
             </div>
         </div>

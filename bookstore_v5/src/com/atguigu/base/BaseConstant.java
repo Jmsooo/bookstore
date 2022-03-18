@@ -10,4 +10,8 @@ public class BaseConstant {
 
     public static final String SESSION_KEY_CART = "existCart";
 
+    public static final int ORDER_UNCOMPLETED = 0;
+
+    public static final int ORDER_COMPLETED = 1;
+
 }

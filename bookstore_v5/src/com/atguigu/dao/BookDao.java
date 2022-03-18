@@ -18,4 +18,6 @@ public interface BookDao {
     Book selectBookById(Integer bookId);
 
     int updateBook(Book book);
+
+    void updateBooks(Object[][] bookParams);
 }

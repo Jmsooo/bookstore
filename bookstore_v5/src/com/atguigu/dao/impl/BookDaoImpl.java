@@ -74,4 +74,12 @@ public class BookDaoImpl extends BaseDao<Book> implements BookDao {
                 book.getBookId()
         );
     }
+
+    @Override
+    public void updateBooks(Object[][] bookParams) {
+        batch(
+                "update t_book set sales = sales + ?, stock = stock - ? where book_id = ?",
+                bookParams
+        );
+    }
 }
