@@ -2,9 +2,11 @@ package com.atguigu.controller;
 
 import com.atguigu.base.BaseConstant;
 import com.atguigu.base.ModelBaseServlet;
+import com.atguigu.bojo.ResultVO;
 import com.atguigu.bojo.User;
 import com.atguigu.service.UserService;
 import com.atguigu.service.impl.UserServiceImpl;
+import com.atguigu.utils.JsonUtils;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,7 @@ import java.io.IOException;
 public class UserController extends ModelBaseServlet {
 
     public void login(HttpServletRequest req, HttpServletResponse resp){
+        ResultVO resultVO = null;
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
@@ -26,18 +29,22 @@ public class UserController extends ModelBaseServlet {
             if (loginUser != null) {
                 //将用户信息存入session 实现保持登录功能
                 req.getSession().setAttribute(BaseConstant.SESSION_KEY_LOGIN_USER,loginUser);
-                resp.sendRedirect(req.getContextPath() + "/user?method=toLoginSuccessPage");
+                //resp.sendRedirect(req.getContextPath() + "/user?method=toLoginSuccessPage");
+                resultVO = new ResultVO(true,"登录成功！",loginUser);
             } else {
                 String errorMsg = "账户或密码错误";
                 req.setAttribute("errorMsg",errorMsg);
-                toLoginPage(req, resp);
+                resultVO = new ResultVO(false,"登录失败！",null);
+                //toLoginPage(req, resp);
                 return;
             }
         } catch (Exception e) {
             e.printStackTrace();
             String errorMsg = "账户或密码错误";
-            req.setAttribute("errorMsg",errorMsg);
+            //req.setAttribute("errorMsg",errorMsg);
+            resultVO = new ResultVO(false,"登录失败！",null);
         }
+        JsonUtils.javaBean2ResponseText(resp,resultVO);
     }
 
     public void regist(HttpServletRequest req, HttpServletResponse resp){
@@ -90,11 +97,8 @@ public class UserController extends ModelBaseServlet {
 
     public void logout(HttpServletRequest req, HttpServletResponse resp){
         req.getSession().removeAttribute(BaseConstant.SESSION_KEY_LOGIN_USER);
-        try {
-            resp.sendRedirect(req.getContextPath()+"/index.html");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ResultVO resultVO = new ResultVO(true,"注销成功！",null);
+        JsonUtils.javaBean2ResponseText(resp,resultVO);
     }
 
     public void toRegistPage(HttpServletRequest req, HttpServletResponse resp){

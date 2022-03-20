@@ -4,18 +4,27 @@ import com.atguigu.base.BaseConstant;
 import com.atguigu.base.ModelBaseServlet;
 import com.atguigu.bojo.Book;
 import com.atguigu.bojo.Cart;
+import com.atguigu.bojo.ResultVO;
 import com.atguigu.service.BookService;
 import com.atguigu.service.impl.BookServiceImpl;
+import com.atguigu.utils.JsonUtils;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/protected/cart")
+@WebServlet("/cart")
 public class CartController extends ModelBaseServlet {
 
+    public void selectCart(HttpServletRequest request,HttpServletResponse response){
+        Object existCart = request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
+        ResultVO resultVO = new ResultVO(true,"查询购物车成功！",existCart);
+        JsonUtils.javaBean2ResponseText(response,resultVO);
+    }
+
     public void addBookToCart(HttpServletRequest request, HttpServletResponse response) {
+        ResultVO resultVO = null;
         String bookId = request.getParameter("bookId");
         BookService bookService = new BookServiceImpl();
         Book book = bookService.selectBookById(Integer.parseInt(bookId));
@@ -32,80 +41,9 @@ public class CartController extends ModelBaseServlet {
         existCart.addBookToCart(book);
         request.getSession().setAttribute(BaseConstant.SESSION_KEY_CART, existCart);
 
-        try {
-            response.sendRedirect(request.getContextPath() + "/index.html");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        resultVO = new ResultVO(true,"添加购物车成功！",null);
 
-    public void toCartPage(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            processTemplate("pages/cart/cart", request, response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void clearCart(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().removeAttribute(BaseConstant.SESSION_KEY_CART);
-        try {
-            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteCart(HttpServletRequest request, HttpServletResponse response) {
-        String bookId = request.getParameter("bookId");
-        Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
-        existCart.removeCartItem(Integer.parseInt(bookId));
-        try {
-            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void cartItemCountDecrease(HttpServletRequest request, HttpServletResponse response) {
-        String bookId = request.getParameter("bookId");
-        Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
-        Integer count = existCart.getCartItemMap().get(Integer.parseInt(bookId)).getCount();
-
-        if (count == 1) {
-            existCart.removeCartItem(Integer.parseInt(bookId));
-        } else {
-            existCart.cartItemCountDecrease(Integer.parseInt(bookId));
-        }
-
-        try {
-            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void cartItemCountIncrease(HttpServletRequest request, HttpServletResponse response) {
-        String bookId = request.getParameter("bookId");
-        Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
-        existCart.cartItemCountIncrease(Integer.parseInt(bookId));
-        try {
-            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateCartItemCount(HttpServletRequest request, HttpServletResponse response) {
-        String bookId = request.getParameter("bookId");
-        String newCount = request.getParameter("newCount");
-        Cart existCart = (Cart) request.getSession().getAttribute(BaseConstant.SESSION_KEY_CART);
-        existCart.updateCartItemCount(Integer.parseInt(bookId), Integer.parseInt(newCount));
-        try {
-            response.sendRedirect(request.getContextPath() + "/protected/cart?method=toCartPage");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        JsonUtils.javaBean2ResponseText(response,resultVO);
     }
 
 

@@ -26,19 +26,21 @@
                 <a th:href="@{/user(method=toRegistPage)}" class="register">注册</a>
                 <a th:href="@{/protected/cart(method=toCartPage)}" class="cart iconfont icon-gouwuche">
                     购物车
-                    <div class="cart-num" th:if="${session.existCart==null||session.existCart.totalCount==0}">0</div>
-                    <div class="cart-num" th:unless="${session.existCart==null||session.existCart.totalCount==0}" th:text="${session.existCart.totalCount}">0</div>
+                    <!--<div class="cart-num" v-if="cart==null||cart.totalCount==0">0</div>
+                    <div class="cart-num" v-if="!(cart==null||cart.totalCount==0)" v-text="cart.totalCount">0</div>-->
+                    <div class="cart-num" v-if="cart==null||cart.totalCount==0">0</div>
+                    <div class="cart-num" v-text="cart.totalCount">0</div>
                 </a>
                 <a th:href="@{/manager.html}" class="admin">后台管理</a>
             </div>
             <!--登录后风格-->
             <div class="topbar-right" th:unless="${session.loginUser == null}">
                 <span>欢迎 <b th:text="${session.loginUser.username}">张总</b></span>
-                <a th:href="@{/user(method=logout)}" class="register">注销</a>
+                <a th:href="@{/user(method=logout)}" class="register" @click.prevent="logout">注销</a>
                 <a th:href="@{/protected/cart(method=toCartPage)}" class="cart iconfont icon-gouwuche">
                     购物车
-                    <div class="cart-num" th:if="${session.existCart==null||session.existCart.totalCount==0}">0</div>
-                    <div class="cart-num" th:unless="${session.existCart==null||session.existCart.totalCount==0}" th:text="${session.existCart.totalCount}">0</div>
+                    <div class="cart-num" v-if="cart==null||cart.totalCount==0">0</div>
+                    <div class="cart-num" v-if="!(cart==null||cart.totalCount==0)" v-text="cart.totalCount">0</div>
                 </a>
                 <a href="pages/manager/book_manager.html" class="admin">后台管理</a>
             </div>
@@ -149,7 +151,7 @@
                     </div>
                 </div>
                 <div class="list-content">
-                    <div class="list-item" th:each="book:${bookList}">
+                    <!--<div class="list-item" th:each="book:${bookList}">
                         <img th:src="${book.imgPath}" alt="">
                         <p>书名:<span th:text="${book.bookName}"></span></p>
                         <p>作者:<span th:text="${book.author}"></span></p>
@@ -157,6 +159,17 @@
                         <p>销量:<span th:text="${book.sales}"></span></p>
                         <p>库存:<span th:text="${book.stock}"></span></p>
                         <a th:href="@{/protected/cart(method=addBookToCart,bookId=${book.bookId})}">
+                            加入购物车
+                        </a>
+                    </div>-->
+                    <div class="list-item"  v-for="book in bookList">
+                        <img :src="book.imgPath" alt="">
+                        <p>书名:<span v-text="book.bookName"></span></p>
+                        <p>作者:<span v-text="book.author"></span></p>
+                        <p>价格:<span v-text="book.price"></span></p>
+                        <p>销量:<span v-text="book.sales"></span></p>
+                        <p>库存:<span v-text="book.stock"></span></p>
+                        <a @click.prevent="addBookToCart(book)">
                             加入购物车
                         </a>
                     </div>
@@ -339,6 +352,8 @@
 
 </div>
 <script src="static/script/swiper.min.js"></script>
+<script src="static/script/vue.js"></script>
+<script src="static/script/axios.js"></script>
 <script>
     var swiper = new Swiper('.swiper-container', {
         autoplay: true,
@@ -349,6 +364,95 @@
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev'
+        }
+    })
+
+    var vue = new Vue({
+        el:"#app",
+        data:{
+            bookList:[],
+            cart:{}
+        },
+        methods:{
+            logout(){
+
+                //判断是否在登录状态
+                var str= sessionStorage.getItem("loginUser");
+                if (str == null){
+                    alert("您还未登录！");
+                    location.reload();
+                    return;
+                }
+
+                axios({
+                    method:"get",
+                    url:"user",
+                    params:{
+                        method:"logout"
+                    }
+                }).then(function (res) {
+                    var data = res.data;
+                    console.log(data);
+                    if (data.flag){
+                        //注销成功
+                        sessionStorage.removeItem("loginUser");
+                        location.reload();
+                    }
+                })
+            },
+            selectList(){
+                var _this = this;
+                axios({
+                    method:"get",
+                    url:"book",
+                    params:{
+                        method:"selectBookList"
+                    }
+                }).then(function (res) {
+                    var data = res.data;
+                    console.log(data);
+                    if (data.flag){
+                        //查询成功
+                        _this.bookList = data.data;
+                    }
+                })
+            },
+            selectCart(){
+                var _this = this;
+                axios({
+                    method:"get",
+                    url:"cart",
+                    params:{
+                        method:"selectCart"
+                    }
+                }).then(function (res) {
+                    var data = res.data;
+                    if (data.flag){
+                        //查询成功
+                        console.log(data.data);
+                        _this.cart = data.data;
+                    }
+                })
+            },
+            addBookToCart(book){
+                var _this = this;
+                axios({
+                    method:"get",
+                    url:"cart",
+                    params:{
+                        method:"addBookToCart",
+                        bookId:book.bookId
+                    }
+                }).then(function (res) {
+                    console.log(res);
+                    _this.selectCart();
+                })
+            }
+        },
+        mounted(){
+
+            this.selectList();
+
         }
     })
 </script>
